@@ -19,21 +19,26 @@ process_flagged(
 of possible problematic points and the ability to manually remove these points.
 Setting \code{interactive = FALSE} will automatically remove these points from the data frame.}
 
-\item{latitude}{Default = "latitude". The name of the latitude column in the data frame.}
+\item{latitude}{Default = "latitude". The name of the \href{http://rs.tdwg.org/dwc/terms/decimalLatitude}{latitude} column in the data frame.}
 
-\item{longitude}{Default = "longitude". The name of the longitude column in the data frame.}
+\item{longitude}{Default = "longitude". The name of the \href{http://rs.tdwg.org/dwc/terms/decimalLongitude}{longitude} column in the data frame.}
 
-\item{scientific.name}{Default = "scientificName". The name of the scientific name column in the data frame.}
+\item{scientific.name}{Default = "scientificName". The name of the \href{http://rs.tdwg.org/dwc/terms/scientificName}{scientificName} column in the data frame.}
 }
 \value{
 Return cleaned data frame.
+Information about the columns in the returned data frame can be found in the documentation for \code{gators_download()}.
 }
 \description{
-The \code{process_flagged()} function allows you to find and map possible problematic points and
-manually inspect and remove these points, if desired. When running the function interactively you can
-hover over a point to see the record's scientific name, and click on a point to see the record's coordinates.
+The \code{process_flagged()} function allows you to visualize and inspect possible problematic points, as well as
+manually remove these points, if desired. By default, this function is interactive. When running the function interactively you can
+hover over a point to see the record's scientific name, and click on a point to see the record's coordinates.The interactive option plots flagged points in red and non-flagged points in blue.
 }
 \details{
+This function is a wrapper to visualize results for the \code{CoordinateCleaner::clean_coordinates()} function.
+Briefly, \code{CoordinateCleaner::clean_coordinates()} flags records with coordinates that are unlikely valid,
+spatial outliers, or in certain locations including the ocean, state capitals, country centroids,
+the GBIF headquarters, and biodiversity institutions (including botanical gardens, museums, herbaria, etc.).
 This function requires packages CoordinateCleaner, leaflet, and magrittr.
 This function requires interactive user input.
 }

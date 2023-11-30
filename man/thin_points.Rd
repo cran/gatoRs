@@ -23,18 +23,22 @@ if the data frame already contains an accepted_name column.}
 
 \item{reps}{Default = 100. Number of times to perform thinning algorithm.}
 
-\item{latitude}{Default = "latitude". The name of the latitude column in the data frame.}
+\item{latitude}{Default = "latitude". The name of the \href{http://rs.tdwg.org/dwc/terms/decimalLatitude}{latitude} column in the data frame.}
 
-\item{longitude}{Default = "longitude". The name of the longitude column in the data frame.}
+\item{longitude}{Default = "longitude". The name of the \href{http://rs.tdwg.org/dwc/terms/decimalLongitude}{longitude} column in the data frame.}
 }
 \value{
 df is a data frame with the cleaned data.
+Information about the columns in the returned data frame can be found in the documentation for \code{gators_download()}.
 }
 \description{
-The \code{thin_points} function returns records based on coordinate thinning.
+The \code{thin_points} function returns records based on coordinate thinning based on a minimum nearest neighbor distance approach.
 }
 \details{
-This function requires package spThin.
+This function is a wrapper for spatial thinning using the spThin package (Aiello-Lammens et al., 2015)
+In summary, the thinning algorithm provided by spThin calculates the pairwise distances between data points,
+then randomly samples a single point from all points less than or equal to the set minimum nearest neighbor distance.
+This process is repeated until the pairwise distances among points do not fall below the minimum nearest neighbor distance.
 }
 \examples{
 thinned_data <- thin_points(data, accepted.name = "Galax urceolata")

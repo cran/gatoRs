@@ -6,8 +6,19 @@
 #' coordinate uncertainty using the `basic_locality_clean()` function.
 #'
 #' @details
-#' This function requires the parsedate and dplyr packages. This function will ignore missing occurrence ID
-#' and year, month, date columns if not provided in the data set.
+#' Here we identify and remove both (1) specimen duplicates and (2) aggregator duplicates based on each specimens coordinates,
+#' occurrenceID, and eventDate. To leverage all date information
+#' available, set `remove.unparseable = FALSE` to manually populate
+#' the year, month, and day columnsl. Dates are parsed based on ISO 8601 which only includes time since the Unix epoch, or January 1st, 1970, therefore dates that occur
+#' before 1970 will not be automatically parsed.  If we are unable to parse the included date for particular records,
+#' users can choose to manually enter the year, month, and day for these records when prompted.
+#' If the user chooses to manually enter the event date, the records eventDate will be printed
+#' and the user will be asked to manually enter the year, month, and day of this eventDate into the console.
+#' Users are only prompted to manually parse event dates for records where year, month, and day are absent,
+#' but eventDate is present and cannot be parsed.
+#' This function also we also confirm all ID (UUID and key) are unique to remove any within-aggregator duplicates that may accumulate due to processing errors.
+#' This function requires the parsedate and dplyr packages. Warning, this function will ignore missing occurrence ID
+#' and year, month, day columns if not provided in the data set.
 #'
 #' @param df Data frame of occurrence records returned from `gators_download()`.
 #' @inheritParams correct_class
@@ -22,6 +33,7 @@
 #' cleaned_data <- remove_duplicates(data, remove.unparseable = TRUE)
 #'
 #' @return Return data frame with duplicates removed.
+#' Information about the columns in the returned data frame can be found in the documentation for `gators_download()`.
 #'
 #' @importFrom parsedate parse_iso_8601 format_iso_8601
 #' @importFrom dplyr distinct mutate select row_number filter
@@ -79,7 +91,7 @@ remove_duplicates <- function(df, event.date = "eventDate",
         if (remove.unparseable) {
           return("remove")
         } else {
-          temp_message <- paste0("Event date cannot be automatically parsed for date: ", date)
+          temp_message <- paste0("Date cannot be automatically parsed for the eventDate: ", date)
           temp_year <- readline(prompt = paste(temp_message, "Please enter the year in YYYY format, or NA if not provided: ", sep = "\n"))
           temp_month <- readline(prompt = "Please enter the month in MM format, or NA if not provided: ")
           temp_day <- readline(prompt = "Please enter the day in DD format or NA if not provided: ")

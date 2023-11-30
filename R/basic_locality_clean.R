@@ -5,6 +5,12 @@
 #' This function requires columns named 'latitude' and 'longitude'. These columns should be of type 'numeric'.
 #'
 #' @details
+#' This function removes any records with missing coordinates, impossible coordinates,
+#' coordinates at (0,0), and any that are flagged as skewed.
+#' These skewed records are identified with the `remove_skewed()`
+#' function which identifies rows where the [‘InformationWitheld’](http://rs.tdwg.org/dwc/terms/informationWithheld) column
+#' includes the string "Coordinate uncertainty increased".
+#' We also provide the option to round the provided latitude and longitude values to a specified number of decimal places.
 #' This function requires no additional packages.
 #'
 #' @param df Data frame of occurrence records returned from `gators_download()`.
@@ -18,6 +24,7 @@
 #' cleaned_data <- basic_locality_clean(data)
 #'
 #' @return Return data frame with specimen removed that had missing or improper coordinate values.
+#' Information about the columns in the returned data frame can be found in the documentation for `gators_download()`.
 #'
 #' @export
 

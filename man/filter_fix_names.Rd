@@ -19,7 +19,7 @@ filter_fix_names(
 
 \item{filter}{Default = "fuzzy". Indicates the type of filter to be used--either "exact" or "fuzzy".}
 
-\item{scientific.name}{Default = "scientificName". The name of the scientific name column in the data frame.}
+\item{scientific.name}{Default = "scientificName". The name of the \href{http://rs.tdwg.org/dwc/terms/scientificName}{scientificName} column in the data frame.}
 
 \item{accepted.name}{The accepted scientific name for the species. If provided, an additional column will be added to the data frame with the accepted name for further manual comparison.}
 }
@@ -28,8 +28,9 @@ Returns data frame with filtered results.
 }
 \description{
 The \code{filter_fix_names()} function filters a data frame for relevant results, based on the scientific name given.
-Some downloaded results from iDigBio might contain occurrences of other species that have "notes" mentioning
-the desired species. Hence, this function looks for relevant results that are actually occurrences of the
+Some downloaded results from iDigBio might contain occurrences of other species that have "notes" or "locality" strings that mentioning
+the desired species. Here we only retain those where the scientificName column is found to be a fuzzy match to a value in the user-provided list containing the scientific name and applicable synonym
+Hence, this function looks for relevant results that are actually occurrences of the
 desired species.
 }
 \details{

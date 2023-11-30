@@ -19,12 +19,13 @@ taxa_clean(
 
 \item{taxa.filter}{The type of filter to be used--either "exact", "fuzzy", or "interactive".}
 
-\item{scientific.name}{Default = "scientificName". The name of the scientific name column in the data frame.}
+\item{scientific.name}{Default = "scientificName". The name of the \href{http://rs.tdwg.org/dwc/terms/scientificName}{scientificName} column in the data frame.}
 
 \item{accepted.name}{The accepted scientific name for the species. If provided, an additional column will be added to the data frame with the accepted name for further manual comparison.}
 }
 \value{
 Returns data frame with filtered results and new column with the accepted name labeled as "accepted_name".
+Information about the columns in the returned data frame can be found in the documentation for \code{gators_download()}. An additional column named "accepted_name" will be returned if an accepted.name was provided.
 }
 \description{
 The \code{taxa_clean()} function filters a data frame for relevant results, based on the scientific name given.
@@ -33,7 +34,12 @@ provides interactive filtering by providing the user with prompts. The interacti
 to manually determine whether they wish to keep results containing certain scientific names.
 }
 \details{
-This function requires no additional packages.
+If users select the interactive approach, the function will first print all unique scientific names
+in the current data set and then ask the user to respond in the console to prompts regarding which records,
+if any, should be removed based on their scientific name.
+After filtering, based on a user-provided taxonomy,  an accepted name column can be defined with an optional argument.
+This function relies on the user-provided taxonomy, we do not utilize any taxonomic backbone.
+Additionally, this function requires no additional packages.
 }
 \examples{
 cleaned_data <- taxa_clean(data, c("Galax urceolata", "Galax aphylla"), taxa.filter = "exact")

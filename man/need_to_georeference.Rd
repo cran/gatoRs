@@ -14,15 +14,15 @@ need_to_georeference(
 \arguments{
 \item{df}{A data frame downloaded with \code{gators_download()}.}
 
-\item{longitude}{Default = "longitude". The name of the longitude column in the data frame.}
+\item{longitude}{Default = "longitude". The name of the \href{http://rs.tdwg.org/dwc/terms/decimalLongitude}{longitude} column in the data frame.}
 
-\item{latitude}{Default = "latitude". The name of the latitude column in the data frame.}
+\item{latitude}{Default = "latitude". The name of the \href{http://rs.tdwg.org/dwc/terms/decimalLatitude}{latitude} column in the data frame.}
 
-\item{locality}{Default = "locality". The name of the locality column in the data frame.}
+\item{locality}{Default = "locality". The name of the \href{http://rs.tdwg.org/dwc/terms/locality}{locality} column in the data frame.}
 }
 \value{
 Returns a data frame of the points that need to be georeferenced.
-For more information about this data frame, see \code{gators_download()}.
+Information about the columns in the returned data frame can be found in the documentation for \code{gators_download()}.
 }
 \description{
 The \code{need_to_georeference()} function allows you to find records that are missing coordinates

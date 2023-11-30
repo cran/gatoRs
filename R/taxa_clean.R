@@ -7,7 +7,12 @@
 #' to manually determine whether they wish to keep results containing certain scientific names.
 #'
 #' @details
-#' This function requires no additional packages.
+#' If users select the interactive approach, the function will first print all unique scientific names
+#' in the current data set and then ask the user to respond in the console to prompts regarding which records,
+#' if any, should be removed based on their scientific name.
+#'  After filtering, based on a user-provided taxonomy,  an accepted name column can be defined with an optional argument.
+#'  This function relies on the user-provided taxonomy, we do not utilize any taxonomic backbone.
+#'  Additionally, this function requires no additional packages.
 #'
 #' @param df Data frame of occurrence records returned from `gators_download()`.
 #' @param synonyms.list A list of synonyms for a species.
@@ -21,7 +26,7 @@
 #' accepted.name = "Galax urceolata")
 #'
 #' @return Returns data frame with filtered results and new column with the accepted name labeled as "accepted_name".
-#'
+#' Information about the columns in the returned data frame can be found in the documentation for `gators_download()`. An additional column named "accepted_name" will be returned if an accepted.name was provided.
 #' @export
 
 taxa_clean <- function(df, synonyms.list, taxa.filter = "fuzzy", scientific.name = "scientificName", accepted.name = NA) {

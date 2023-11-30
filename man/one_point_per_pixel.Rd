@@ -17,7 +17,7 @@ one_point_per_pixel(
 \arguments{
 \item{df}{Data frame of occurrence records.}
 
-\item{raster}{Raster object which will be used for ecological niche comparisons.}
+\item{raster}{Raster object which will be used for ecological niche comparisons. A SpatRaster should be used.}
 
 \item{resolution}{Default = 0.5. Options - 0.5, 2.5, 5, and 10 (in min of a degree). 0.5 min of a degree is equal to 30 arc sec.}
 
@@ -25,16 +25,17 @@ one_point_per_pixel(
 
 \item{digits}{Default = 2. Indicates digits to round coordinates to when \code{precision = TRUE}.}
 
-\item{longitude}{Default = "longitude". The name of the longitude column in the data frame.}
+\item{longitude}{Default = "longitude". The name of the \href{http://rs.tdwg.org/dwc/terms/decimalLongitude}{longitude} column in the data frame.}
 
-\item{latitude}{Default = "latitude". The name of the latitude column in the data frame.}
+\item{latitude}{Default = "latitude". The name of the \href{http://rs.tdwg.org/dwc/terms/decimalLatitude}{latitude} column in the data frame.}
 }
 \value{
 df is a data frame with only one point per pixel.
+Information about the columns in the returned data frame can be found in the documentation for \code{gators_download()}.
 }
 \description{
 The \code{one_point_per_pixel} function retains only one point per raster pixel. This function is useful
-for creating present-absent models.
+when creating present-absent models.
 }
 \details{
 This function requires package raster and spatstat.geom.

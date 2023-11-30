@@ -7,6 +7,9 @@
 #' This function also provides the option to interactively inspect and remove types of basis of record.
 #'
 #' @details
+#' This function is entirely automated and thus does not take advantage of the interactive options provided in the individual cleaning functions.
+#' Using this wrapper is recommended for data processing that does not require interactive/manual cleaning and inspection.
+#' All cleaning steps, except taxonomic harmonization, can be bypassed by setting their associated input variables to FALSE.
 #' This function requires packages dplyr, magrittr, and raster.
 #'
 #' @param df Data frame of occurrence records.
@@ -21,13 +24,14 @@
 #' @param one.point.per.pixel Default = TRUE. An option to only retain one point per pixel.
 #' @inheritParams thin_points
 #' @inheritParams one_point_per_pixel
-#'
+#' @param remove.duplicates Default = TRUE. An option to remove duplicate points.
 #' @examples
 #' cleaned_data <- full_clean(data, synonyms.list = c("Galax urceolata", "Galax aphylla"),
 #' digits = 3, basis.list = c("Preserved Specimen","Physical specimen"),
 #' accepted.name = "Galax urceolata", remove.flagged = FALSE)
 #'
 #' @return df is a data frame with the cleaned data.
+#' Information about the columns in the returned data frame can be found in the documentation for `gators_download()`. An additional column named "accepted_name" will be returned if an accepted.name was provided.
 #'
 #' @export
 
@@ -43,13 +47,10 @@ full_clean <- function(df, synonyms.list, event.date = "eventDate",
                        latitude = "latitude", longitude = "longitude",
                        remove.flagged = TRUE, thin.points = TRUE,
                        distance = 5, reps = 100,
-                       one.point.per.pixel = TRUE, raster = NA, resolution = 0.5) {
+                       one.point.per.pixel = TRUE, raster = NA, resolution = 0.5,
+                       remove.duplicates = TRUE) {
 
-  suppress_output(df <- remove_duplicates(df, event.date = event.date,
-                                          aggregator = aggregator, id = id, occ.id = occ.id,
-                                          year = year, month = month, day = day,
-                                          remove.NA.occ.id = remove.NA.occ.id, remove.NA.date = remove.NA.date,
-                                          remove.unparseable = TRUE))
+
   suppress_output(df <- taxa_clean(df = df,  synonyms.list = synonyms.list,
                taxa.filter = taxa.filter, scientific.name = scientific.name, accepted.name =  accepted.name))
 
@@ -84,6 +85,16 @@ full_clean <- function(df, synonyms.list, event.date = "eventDate",
     suppress_output(df <- one_point_per_pixel(df, raster = raster, resolution = resolution,
                                               longitude = longitude, latitude = latitude))
   } else{
+    df <- df
+  }
+
+  if(remove.duplicates == TRUE){
+    suppress_output(df <- remove_duplicates(df, event.date = event.date,
+                                            aggregator = aggregator, id = id, occ.id = occ.id,
+                                            year = year, month = month, day = day,
+                                            remove.NA.occ.id = remove.NA.occ.id, remove.NA.date = remove.NA.date,
+                                            remove.unparseable = TRUE))
+  }else{
     df <- df
   }
 

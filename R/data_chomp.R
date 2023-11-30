@@ -3,7 +3,7 @@
 #' @description
 #' The `data_chomp()` function "chomps" (subsets) a data frame of occurrence records to only
 #' contain the following columns: "species", "longitude", and "latitude". After using this
-#' function data will be ready for use in Maxent, for example.
+#' function data will be ready for use in [Maxent](https://biodiversityinformatics.amnh.org/open_source/maxent/), for example.
 #'
 #' @details
 #' This function requires the package dplyr.
@@ -15,7 +15,7 @@
 #' @examples
 #' chomped_data <- data_chomp(data, accepted.name = "Galax urceolata")
 #'
-#' @return Returns data frame with a subset of columns ready for downstream applications such as Maxent.
+#' @return Returns data frame with three columns: "species", "longitude", and "latitude". The "species" column is set by the accepted.name input. This data frame is ready for downstream applications such as Maxent.
 #'
 #' @importFrom dplyr select
 #' @export

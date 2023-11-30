@@ -23,24 +23,24 @@ remove_duplicates(
 \arguments{
 \item{df}{Data frame of occurrence records returned from \code{gators_download()}.}
 
-\item{event.date}{Default = "eventDate". The name of the event date column in the data frame.}
+\item{event.date}{Default = "eventDate". The name of the \href{http://rs.tdwg.org/dwc/terms/eventDate}{event date} column in the data frame.}
 
 \item{aggregator}{Default = "aggregator". The name of the column in the data frame that identifies the aggregator
-that provided the record.}
+that provided the record. This is equal to iDigBio or GBIF.}
 
-\item{id}{Default = "ID". The name of the id column in the data frame, which contains unique IDs defined from GBIF or iDigBio.}
+\item{id}{Default = "ID". The name of the id column in the data frame, which contains unique IDs defined from GBIF (keys) or iDigBio (UUID).}
 
-\item{occ.id}{Default = "occurrenceId". The name of the occurrence ID column in the data frame.}
+\item{occ.id}{Default = "occurrenceID". The name of the \href{http://rs.tdwg.org/dwc/terms/occurrenceID}{occurrenceID} column in the data frame.}
 
-\item{year}{Default = "year". The name of the event date year column in the data frame.}
+\item{year}{Default = "year". The name of the \href{http://rs.tdwg.org/dwc/terms/year}{year} column in the data frame.}
 
-\item{month}{Default = "month". The name of the event date month column in the data frame.}
+\item{month}{Default = "month". The name of the \href{http://rs.tdwg.org/dwc/terms/month}{month} column in the data frame.}
 
-\item{day}{Default = "day". The name of the event date day column in the data frame.}
+\item{day}{Default = "day". The name of the \href{http://rs.tdwg.org/dwc/terms/day}{day} column in the data frame.}
 
-\item{latitude}{Default = "latitude". The name of the latitude column in the data frame.}
+\item{latitude}{Default = "latitude". The name of the \href{http://rs.tdwg.org/dwc/terms/decimalLatitude}{latitude} column in the data frame.}
 
-\item{longitude}{Default = "longitude". The name of the longitude column in the data frame.}
+\item{longitude}{Default = "longitude". The name of the \href{http://rs.tdwg.org/dwc/terms/decimalLongitude}{longitude} column in the data frame.}
 
 \item{remove.NA.occ.id}{Default = FALSE. This will remove records with missing occurrence IDs when set to \code{TRUE}.}
 
@@ -51,6 +51,7 @@ month, day categories the user can manually specify. Otherwise, if set to TRUE, 
 }
 \value{
 Return data frame with duplicates removed.
+Information about the columns in the returned data frame can be found in the documentation for \code{gators_download()}.
 }
 \description{
 The \code{remove_duplicates()} function removes records with identical event dates and occurrence IDs.
@@ -58,8 +59,19 @@ Prior to utilizing this function, longitude and latitude columns should be round
 coordinate uncertainty using the \code{basic_locality_clean()} function.
 }
 \details{
-This function requires the parsedate and dplyr packages. This function will ignore missing occurrence ID
-and year, month, date columns if not provided in the data set.
+Here we identify and remove both (1) specimen duplicates and (2) aggregator duplicates based on each specimens coordinates,
+occurrenceID, and eventDate. To leverage all date information
+available, set \code{remove.unparseable = FALSE} to manually populate
+the year, month, and day columnsl. Dates are parsed based on ISO 8601 which only includes time since the Unix epoch, or January 1st, 1970, therefore dates that occur
+before 1970 will not be automatically parsed.  If we are unable to parse the included date for particular records,
+users can choose to manually enter the year, month, and day for these records when prompted.
+If the user chooses to manually enter the event date, the records eventDate will be printed
+and the user will be asked to manually enter the year, month, and day of this eventDate into the console.
+Users are only prompted to manually parse event dates for records where year, month, and day are absent,
+but eventDate is present and cannot be parsed.
+This function also we also confirm all ID (UUID and key) are unique to remove any within-aggregator duplicates that may accumulate due to processing errors.
+This function requires the parsedate and dplyr packages. Warning, this function will ignore missing occurrence ID
+and year, month, day columns if not provided in the data set.
 }
 \examples{
 cleaned_data <- remove_duplicates(data)

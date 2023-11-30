@@ -2,7 +2,7 @@
 #'
 #' @description
 #' The `citation_bellow` function retrieves and returns the citation information
-#' for the data provided by GBIF in a data frame.
+#' for records from GBIF, or where aggregator = "GBIF".
 #'
 #' @details
 #' This function requires the rgbif package.
@@ -25,7 +25,8 @@ citation_bellow <- function(df, id = "ID", aggregator = "aggregator") {
   gbif <- df[df[[aggregator]] == "GBIF", ]
   citations <- list()
   for (i in 1:NROW(gbif)) {
-    citations[i] <- rgbif::gbif_citation(gbif[[id]][i])$citation$text
+    citations[[i]] <- rgbif::gbif_citation(gbif[[id]][i])$citation$text
   }
+  citations <- do.call(rbind, citations)
   return(citations)
 }

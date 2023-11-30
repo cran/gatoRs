@@ -9,13 +9,13 @@ remove_skewed(df, info.withheld = "informationWithheld")
 \arguments{
 \item{df}{A data frame downloaded with \code{gators_download()}.}
 
-\item{info.withheld}{Default = "informationWithheld". The name of the information withheld column in the data frame.}
+\item{info.withheld}{Default = "informationWithheld". The name of the \href{http://rs.tdwg.org/dwc/iri/informationWithheld}{information withheld} column in the data frame.}
 }
 \value{
 A data frame with records remove only records for which locality was skewed.
 }
 \description{
-The \code{remove_skewed()} function identifies and removes records where locality has been skewed.
+The \code{remove_skewed()} function identifies and removes records where locality has been skewed. Records are considered skewed if informationWithheld contains the string "Coordinate uncertainty increased".
 }
 \details{
 This function requires no additional packages.
